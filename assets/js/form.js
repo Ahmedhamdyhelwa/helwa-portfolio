@@ -1,5 +1,5 @@
 // Lead form → Google Sheets (via Google Apps Script Web App)
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzohz0UVnaBa5YftFpuehvcr72MVPqX2swhpY57Wv6v7FSbR1z6qoSq2bGWHA_lywr9/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyQ03t0eJeAE5npUYhMkqGOU4LTTEFTYBmD-ph6s2Cs_JJxD8LnRDqAlx93fMfaoXTs/exec';
 
 const form = document.getElementById('leadForm');
 const msgBox = document.getElementById('formMsg');
