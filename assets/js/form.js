@@ -1,5 +1,4 @@
 // Lead form → Google Sheets (via Google Apps Script Web App)
-// ⚠️ بعد ما تعمل خطوات الربط في SETUP.md، حط لينك الـ Web App هنا:
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzohz0UVnaBa5YftFpuehvcr72MVPqX2swhpY57Wv6v7FSbR1z6qoSq2bGWHA_lywr9/exec';
 
 const form = document.getElementById('leadForm');
@@ -28,6 +27,7 @@ const TEXT = isEnglish
 function showMsg(type, text) {
   msgBox.className = 'form-msg ' + type;
   msgBox.textContent = text;
+  msgBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 if (form) {
@@ -46,25 +46,45 @@ if (form) {
       return;
     }
 
-    const data = Object.fromEntries(new FormData(form).entries());
+    // Collect all form data (use getAll for checkboxes)
+    const raw = new FormData(form);
+    const data = {};
+    raw.forEach((val, key) => { if (key !== 'services') data[key] = val; });
     data.services = services.join(' | ');
     data.lang = isEnglish ? 'EN' : 'AR';
     data.submitted_at = new Date().toISOString();
 
     submitBtn.disabled = true;
     submitBtn.textContent = TEXT.sending;
+
     try {
-      // mode: no-cors — Apps Script web apps don't return CORS headers,
-      // the request still reaches the sheet
-      await fetch(APPS_SCRIPT_URL, {
+      // Use URLSearchParams so Apps Script can read e.parameter (simpler than JSON in some setups)
+      // Primary: try JSON fetch with CORS
+      const res = await fetch(APPS_SCRIPT_URL, {
         method: 'POST',
-        mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(data),
+        redirect: 'follow',
       });
+
+      // Google Apps Script redirects (302) to a new URL — fetch follows it automatically.
+      // A non-ok status means something went wrong server-side.
+      if (!res.ok) {
+        throw new Error('Server returned ' + res.status);
+      }
+
+      // Try to read the JSON response to confirm the sheet was written
+      let json = null;
+      try { json = await res.json(); } catch (_) { /* opaque redirect — treat as ok */ }
+
+      if (json && json.ok === false) {
+        throw new Error(json.error || 'Sheet write failed');
+      }
+
       showMsg('ok', TEXT.ok);
       form.reset();
     } catch (err) {
+      console.error('Form error:', err);
       showMsg('err', TEXT.err);
     } finally {
       submitBtn.disabled = false;
