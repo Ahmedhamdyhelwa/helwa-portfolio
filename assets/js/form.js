@@ -46,7 +46,7 @@ if (form) {
       return;
     }
 
-    // Collect all form data (use getAll for checkboxes)
+    // Collect form data — skip 'services' key (handled separately via checkboxes)
     const raw = new FormData(form);
     const data = {};
     raw.forEach((val, key) => { if (key !== 'services') data[key] = val; });
@@ -58,31 +58,24 @@ if (form) {
     submitBtn.textContent = TEXT.sending;
 
     try {
-      // Use URLSearchParams so Apps Script can read e.parameter (simpler than JSON in some setups)
-      // Primary: try JSON fetch with CORS
-      const res = await fetch(APPS_SCRIPT_URL, {
+      // Google Apps Script Web Apps don't return CORS headers, so we must use
+      // mode:'no-cors'. The request DOES reach the sheet — we just can't read
+      // the response. We use a URLSearchParams body so Apps Script can also
+      // read via e.parameter as a fallback.
+      const params = new URLSearchParams(data);
+
+      await fetch(APPS_SCRIPT_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(data),
-        redirect: 'follow',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString(),
       });
 
-      // Google Apps Script redirects (302) to a new URL — fetch follows it automatically.
-      // A non-ok status means something went wrong server-side.
-      if (!res.ok) {
-        throw new Error('Server returned ' + res.status);
-      }
-
-      // Try to read the JSON response to confirm the sheet was written
-      let json = null;
-      try { json = await res.json(); } catch (_) { /* opaque redirect — treat as ok */ }
-
-      if (json && json.ok === false) {
-        throw new Error(json.error || 'Sheet write failed');
-      }
-
+      // With no-cors we can't read the response, but if fetch didn't throw
+      // the request was sent successfully.
       showMsg('ok', TEXT.ok);
       form.reset();
+
     } catch (err) {
       console.error('Form error:', err);
       showMsg('err', TEXT.err);
