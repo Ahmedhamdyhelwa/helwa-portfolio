@@ -9,8 +9,8 @@
 // Meta Pixel:       https://business.facebook.com → Events Manager
 // ============================================================
 
-const GA4_MEASUREMENT_ID = ''; // e.g. 'G-XXXXXXXXXX'
-const META_PIXEL_ID      = ''; // e.g. '123456789012345'
+const GA4_MEASUREMENT_ID = 'G-DFBEPHJKVE'; // e.g. 'G-XXXXXXXXXX'
+const META_PIXEL_ID      = '';             // e.g. '123456789012345'
 
 // ---------- Google Analytics 4 ----------
 (function loadGA4() {
