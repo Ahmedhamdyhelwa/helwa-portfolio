@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <title>OG Cover — Ahmed Helwa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&family=Inter:wght@500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 1200px; height: 630px;
+      background: #faf7f2; color: #14181f;
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+    }
+    body {
+      padding: 60px 70px;
+      display: grid; grid-template-columns: 1.15fr .85fr;
+      gap: 50px; align-items: center;
+      position: relative;
+    }
+    /* subtle grid */
+    body::before {
+      content: ''; position: absolute; inset: 0; z-index: 0;
+      background:
+        linear-gradient(rgba(20, 24, 31, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(20, 24, 31, 0.035) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 80% 60% at 30% 50%, #000 30%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 60% at 30% 50%, #000 30%, transparent 80%);
+    }
+    body::after {
+      content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 40% 60% at 90% 10%, rgba(5, 150, 105, 0.08), transparent 70%),
+        radial-gradient(ellipse 40% 60% at 10% 90%, rgba(229, 83, 59, 0.06), transparent 70%);
+    }
+
+    .left { position: relative; z-index: 1; }
+    .right { position: relative; z-index: 1; }
+
+    .brand {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-weight: 800; font-size: 22px; margin-bottom: 26px; color: #14181f;
+    }
+    .brand .mark {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: #14181f; color: #faf7f2;
+      display: grid; place-items: center;
+      font-family: 'Space Grotesk', monospace; font-weight: 700; font-size: 18px;
+      letter-spacing: -1px;
+    }
+    .brand .accent { color: #059669; }
+
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-weight: 500;
+      font-size: 60px; line-height: 1.05;
+      letter-spacing: -2.5px;
+      margin-bottom: 20px;
+    }
+    h1 em {
+      font-style: italic; color: #059669;
+      display: inline-block;
+    }
+    .role {
+      font-size: 20px; color: #3f3f46; font-weight: 500;
+      line-height: 1.4;
+      margin-bottom: 26px;
+    }
+    .tags {
+      display: flex; gap: 10px; flex-wrap: wrap;
+    }
+    .tag {
+      padding: 8px 16px; border-radius: 99px;
+      background: rgba(5, 150, 105, 0.1); color: #047857;
+      font-weight: 700; font-size: 14px;
+      border: 1px solid rgba(5, 150, 105, 0.25);
+    }
+    .tag.coral { background: rgba(229, 83, 59, 0.1); color: #c8432c; border-color: rgba(229, 83, 59, 0.25); }
+    .tag.dark  { background: #14181f; color: #faf7f2; border-color: transparent; }
+
+    /* Right stats card */
+    .stats-card {
+      background: #ffffff; border: 1px solid #ece7dc;
+      border-radius: 24px; padding: 34px 30px;
+      box-shadow: 0 20px 50px rgba(20, 24, 31, 0.10);
+      display: grid; gap: 22px;
+    }
+    .stats-card .pill-title {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 800; color: #047857;
+      background: rgba(5, 150, 105, 0.1); padding: 6px 14px; border-radius: 99px;
+      letter-spacing: .5px; text-transform: uppercase; width: fit-content;
+      border: 1px solid rgba(5, 150, 105, 0.25);
+    }
+    .stats-card .pill-title .dot {
+      width: 7px; height: 7px; border-radius: 50%; background: #059669;
+    }
+
+    .stat-row {
+      display: grid; grid-template-columns: 1fr; gap: 16px;
+      padding-top: 6px;
+    }
+    .stat-item {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding-bottom: 14px; border-bottom: 1px solid #ece7dc;
+    }
+    .stat-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .stat-item .k {
+      font-size: 15px; color: #78716c; font-weight: 600;
+    }
+    .stat-item .v {
+      font-family: 'Space Grotesk', monospace; font-weight: 700;
+      font-size: 28px; letter-spacing: -1.5px; color: #14181f;
+    }
+    .stat-item .v.hero { color: #059669; font-size: 34px; }
+    .stat-item .v.coral { color: #e5533b; }
+
+    .footer-line {
+      position: absolute; bottom: 30px; left: 70px; right: 70px; z-index: 1;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 14px; color: #78716c; font-weight: 600;
+    }
+    .footer-line .url { color: #14181f; font-weight: 800; }
+    .footer-line .stamp { color: #047857; font-weight: 800; letter-spacing: .5px; }
+  </style>
+</head>
+<body>
+  <div class="left">
+    <div class="brand">
+      <span class="mark">AH</span>
+      Ahmed <span class="accent">&nbsp;Helwa</span>
+    </div>
+    <h1>Meta Ads<br>that turn budgets<br>into <em>real revenue</em></h1>
+    <div class="role">
+      9+ years managing Facebook &amp; Instagram ads for<br>
+      e-commerce brands and educational academies.
+    </div>
+    <div class="tags">
+      <span class="tag">Meta Ads Specialist</span>
+      <span class="tag coral">Data Analyst</span>
+      <span class="tag dark">Egypt · Gulf · Turkey</span>
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="stats-card">
+      <span class="pill-title"><span class="dot"></span> Lifetime performance</span>
+      <div class="stat-row">
+        <div class="stat-item">
+          <span class="k">Revenue generated</span>
+          <span class="v hero">EGP 4.5M+</span>
+        </div>
+        <div class="stat-item">
+          <span class="k">Ad spend managed</span>
+          <span class="v">EGP 200K+</span>
+        </div>
+        <div class="stat-item">
+          <span class="k">Aggregate ROAS</span>
+          <span class="v coral">22x</span>
+        </div>
+        <div class="stat-item">
+          <span class="k">People reached</span>
+          <span class="v">1M+</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-line">
+    <span class="url">ahmedhamdyhelwa.github.io/helwa-portfolio</span>
+    <span class="stamp">STRATEGY · CREATIVITY · RESULTS</span>
+  </div>
+</body>
+</html>
