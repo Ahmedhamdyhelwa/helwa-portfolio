@@ -1,19 +1,32 @@
-const SHEET_NAME = 'Leads';
+// ============================================================
+// Ahmed Helwa portfolio — Sheet backend
+//   Routes submissions to different tabs based on `form_type`.
+//   - form_type == 'book' → "Books" sheet
+//   - anything else       → "Leads" sheet (default)
+// ============================================================
 
-const COLUMNS = [
+const LEADS_SHEET = 'Leads';
+const BOOKS_SHEET = 'Books';
+
+const LEADS_COLUMNS = [
   ['submitted_at', 'تاريخ التسجيل'],
   ['lang',         'لغة الموقع'],
-  ['brand_name',   'اسم البراند'],
-  ['owner_name',   'اسم صاحب البراند'],
+  ['owner_name',   'الاسم'],
   ['whatsapp',     'واتساب'],
-  ['email',        'إيميل'],
   ['social_links', 'لينكات السوشيال'],
   ['product_type', 'نوع المنتج'],
   ['country',      'الدولة المستهدفة'],
-  ['budget',       'الميزانية الشهرية'],
-  ['currency',     'العملة'],
   ['services',     'الخدمات المطلوبة'],
   ['notes',        'تفاصيل إضافية'],
+];
+
+const BOOKS_COLUMNS = [
+  ['submitted_at', 'تاريخ الطلب'],
+  ['lang',         'لغة الموقع'],
+  ['owner_name',   'الاسم'],
+  ['whatsapp',     'رقم الموبايل'],
+  ['address',      'العنوان'],
+  ['book',         'الكتاب المطلوب'],
 ];
 
 function doGet(e) {
@@ -24,33 +37,33 @@ function doGet(e) {
 
 function doPost(e) {
   try {
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
-    let sheet = ss.getSheetByName(SHEET_NAME);
-
-    if (!sheet) {
-      sheet = ss.insertSheet(SHEET_NAME);
-      sheet.appendRow(COLUMNS.map(c => c[1]));
-      sheet.getRange(1, 1, 1, COLUMNS.length)
-        .setFontWeight('bold')
-        .setBackground('#0f1729')
-        .setFontColor('#22d3ee');
-      sheet.setFrozenRows(1);
-    }
-
     let data = {};
-
-    // Try JSON first
     try {
       data = JSON.parse(e.postData.contents);
     } catch (_) {
-      // Fallback to URL params
       data = e.parameter || {};
     }
 
-    sheet.appendRow(COLUMNS.map(c => data[c[0]] || ''));
+    const isBook = (data.form_type || '').toLowerCase() === 'book';
+    const sheetName = isBook ? BOOKS_SHEET : LEADS_SHEET;
+    const columns   = isBook ? BOOKS_COLUMNS : LEADS_COLUMNS;
+
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    let sheet = ss.getSheetByName(sheetName);
+    if (!sheet) {
+      sheet = ss.insertSheet(sheetName);
+      sheet.appendRow(columns.map(c => c[1]));
+      sheet.getRange(1, 1, 1, columns.length)
+        .setFontWeight('bold')
+        .setBackground('#14181f')
+        .setFontColor('#5da9d6');
+      sheet.setFrozenRows(1);
+    }
+
+    sheet.appendRow(columns.map(c => data[c[0]] || ''));
 
     return ContentService
-      .createTextOutput(JSON.stringify({ ok: true }))
+      .createTextOutput(JSON.stringify({ ok: true, target: sheetName }))
       .setMimeType(ContentService.MimeType.JSON);
 
   } catch (err) {

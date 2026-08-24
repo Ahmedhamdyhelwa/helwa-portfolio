@@ -74,6 +74,7 @@
         <a href="#services">Services</a>
         <a href="results.html">Results</a>
         <a href="#process">Process</a>
+        <a href="#books">Books</a>
         <a href="#contact">Contact</a>
       </nav>
       <div class="nav-actions">
@@ -357,6 +358,116 @@
       <p class="testimonials-source reveal">
         Testimonials pulled from a <a href="https://www.facebook.com/share/p/1QH6z59U2J/" target="_blank" rel="noopener">public Facebook post</a> — each client wrote their own comment there.
       </p>
+    </div>
+  </section>
+
+  <!-- ============ BOOKS ============ -->
+  <section id="books">
+    <div class="container">
+      <div class="sec-head reveal">
+        <span class="sec-tag">Books & Guides</span>
+        <h2>My playbooks — <span class="grad-text">free on request</span></h2>
+        <p>Request any book below and fill in the short form. I'll send it directly to your WhatsApp or email.</p>
+      </div>
+
+      <div class="books-grid">
+        <article class="book-card reveal">
+          <div class="book-cover" style="--c1:#059669;--c2:#047857;"><span class="bc-badge">Meta Ads</span><span class="bc-title">Meta Ads Complete Guide</span></div>
+          <h3>Meta Ads Complete Guide</h3>
+          <p>Everything you need on Facebook &amp; Instagram ads — from Pixel to Advantage+ to scaling.</p>
+          <button type="button" class="btn btn-accent book-request-btn" data-book="Meta Ads Complete Guide">Request Book</button>
+        </article>
+
+        <article class="book-card reveal">
+          <div class="book-cover" style="--c1:#0891b2;--c2:#0e7490;"><span class="bc-badge">Student</span><span class="bc-title">Meta Ads — Student Edition</span></div>
+          <h3>Meta Ads — Student Edition</h3>
+          <p>Beginner-friendly — from zero to first successful campaign with hands-on examples.</p>
+          <button type="button" class="btn btn-accent book-request-btn" data-book="Meta Ads Student Edition">Request Book</button>
+        </article>
+
+        <article class="book-card reveal">
+          <div class="book-cover" style="--c1:#e5533b;--c2:#c8432c;"><span class="bc-badge">Content</span><span class="bc-title">Content Plan Guide</span></div>
+          <h3>Content Plan Guide</h3>
+          <p>Build a monthly content plan that fuels ads and organic together.</p>
+          <button type="button" class="btn btn-accent book-request-btn" data-book="Content Plan Guide">Request Book</button>
+        </article>
+
+        <article class="book-card reveal">
+          <div class="book-cover" style="--c1:#7d76b8;--c2:#5e569c;"><span class="bc-badge">Media Plan</span><span class="bc-title">Media Plan Guide</span></div>
+          <h3>Media Plan Guide</h3>
+          <p>The ad plan: budget allocation, objective selection, and campaign sequencing that actually works.</p>
+          <button type="button" class="btn btn-accent book-request-btn" data-book="Media Plan Guide">Request Book</button>
+        </article>
+
+        <article class="book-card reveal">
+          <div class="book-cover" style="--c1:#a16207;--c2:#854d0e;"><span class="bc-badge">Framework</span><span class="bc-title">SOSTAC Brief</span></div>
+          <h3>SOSTAC — Strategic Framework</h3>
+          <p>The framework I use to plan every campaign: Situation, Objectives, Strategy, Tactics, Actions, Control.</p>
+          <button type="button" class="btn btn-accent book-request-btn" data-book="SOSTAC Brief">Request Book</button>
+        </article>
+
+        <article class="book-card reveal">
+          <div class="book-cover" style="--c1:#d63384;--c2:#a02466;"><span class="bc-badge">Reels</span><span class="bc-title">Reels Library</span></div>
+          <h3>Reels Idea Library</h3>
+          <p>Hundreds of ready-to-use Reels ideas for Instagram &amp; TikTok — categorized by niche and goal.</p>
+          <button type="button" class="btn btn-accent book-request-btn" data-book="Reels Library">Request Book</button>
+        </article>
+
+        <article class="book-card reveal">
+          <div class="book-cover" style="--c1:#14181f;--c2:#3f3f46;"><span class="bc-badge">MENA</span><span class="bc-title">MENA Manifesto</span></div>
+          <h3>MENA Manifesto</h3>
+          <p>My take on digital marketing in Egypt &amp; the Gulf — who's winning right now, and why.</p>
+          <button type="button" class="btn btn-accent book-request-btn" data-book="MENA Manifesto">Request Book</button>
+        </article>
+
+        <article class="book-card reveal">
+          <div class="book-cover" style="--c1:#22a960;--c2:#178a48;"><span class="bc-badge">ERP</span><span class="bc-title">ERP for Brands</span></div>
+          <h3>ERP for Brands — A Practical Intro</h3>
+          <p>A practical introduction to ERP systems for stores and mid-sized brands — when you need one and how to choose.</p>
+          <button type="button" class="btn btn-accent book-request-btn" data-book="ERP Guide">Request Book</button>
+        </article>
+      </div>
+
+      <div class="book-form-wrap reveal" id="bookFormWrap">
+        <div class="book-form-header">
+          <span class="sec-tag">Request your book</span>
+          <h3 id="bookFormTitle">Pick a book above and drop your details</h3>
+          <p>I'll send it to your WhatsApp or email within 24 hours.</p>
+        </div>
+
+        <form class="book-form" id="bookForm" novalidate>
+          <input type="hidden" name="book" id="bookField">
+
+          <div class="form-group">
+            <label>Selected book <span class="req">*</span></label>
+            <input type="text" id="bookDisplay" readonly required placeholder="Click any book above first">
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Your name <span class="req">*</span></label>
+              <input type="text" name="owner_name" required placeholder="Your full name">
+            </div>
+            <div class="form-group">
+              <label>Mobile / WhatsApp <span class="req">*</span></label>
+              <input type="tel" name="whatsapp" required placeholder="+966 5X XXX XXXX">
+            </div>
+            <div class="form-group full">
+              <label>Address (city + country) <span class="req">*</span></label>
+              <input type="text" name="address" required placeholder="e.g. Riyadh, Saudi Arabia">
+            </div>
+          </div>
+
+          <div class="form-submit">
+            <button type="submit" class="btn btn-primary" id="bookSubmitBtn">📚 Request the Book</button>
+            <div class="form-msg" id="bookFormMsg" role="status" aria-live="polite"></div>
+            <div class="form-privacy">
+              <span class="lock">🔒</span>
+              Your details stay private and are only used to send you the book.
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   </section>
 

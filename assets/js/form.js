@@ -56,6 +56,100 @@ function buildWhatsAppText(data, services) {
 
 let submitting = false;
 
+// ============================================================
+// Book request form (writes to a second tab in the same Sheet)
+// ============================================================
+const bookForm       = document.getElementById('bookForm');
+const bookField      = document.getElementById('bookField');
+const bookDisplay    = document.getElementById('bookDisplay');
+const bookFormTitle  = document.getElementById('bookFormTitle');
+const bookFormMsg    = document.getElementById('bookFormMsg');
+const bookSubmitBtn  = document.getElementById('bookSubmitBtn');
+
+const BOOK_TEXT = isEnglish
+  ? {
+      sending: '⏳ Sending...',
+      send:    '📚 Request the Book',
+      ok:      '✅ Got it! I\'ll send the book to your WhatsApp within 24 hours.',
+      missing: '⚠️ Please pick a book above and fill in the required fields.',
+    }
+  : {
+      sending: '⏳ جاري الإرسال...',
+      send:    '📚 اطلب الكتاب دلوقتي',
+      ok:      '✅ وصلتني بياناتك! هبعت الكتاب على واتساب خلال 24 ساعة.',
+      missing: '⚠️ اختار الكتاب من فوق وكمّل الخانات المطلوبة.',
+    };
+
+function showBookMsg(type, text) {
+  bookFormMsg.className = 'form-msg ' + type;
+  bookFormMsg.textContent = text;
+  bookFormMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// Wire every "اطلب الكتاب" button to prefill the form + scroll to it
+document.querySelectorAll('.book-request-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const bookName = btn.dataset.book || '';
+    if (bookField)     bookField.value   = bookName;
+    if (bookDisplay)   bookDisplay.value = bookName;
+    if (bookFormTitle) {
+      bookFormTitle.textContent = isEnglish
+        ? `You picked "${bookName}"`
+        : `اختارت "${bookName}"`;
+    }
+    document.getElementById('bookFormWrap')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+let bookSubmitting = false;
+if (bookForm) {
+  bookForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    if (bookSubmitting) return;
+
+    const requiredOk = [...bookForm.querySelectorAll('[required]')].every(f => f.value.trim() !== '');
+    if (!requiredOk || !bookField.value.trim()) {
+      showBookMsg('err', BOOK_TEXT.missing);
+      return;
+    }
+
+    const raw = new FormData(bookForm);
+    const data = {};
+    raw.forEach((val, key) => { data[key] = val; });
+    data.form_type    = 'book';
+    data.lang         = isEnglish ? 'EN' : 'AR';
+    data.submitted_at = new Date().toISOString();
+
+    bookSubmitting = true;
+    bookSubmitBtn.disabled = true;
+    bookSubmitBtn.textContent = BOOK_TEXT.sending;
+
+    try {
+      const params = new URLSearchParams(data);
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString(),
+      });
+    } catch (err) {
+      console.warn('Book submit failed:', err);
+    }
+
+    showBookMsg('ok', BOOK_TEXT.ok);
+    bookForm.reset();
+    if (bookField)   bookField.value = '';
+    if (bookDisplay) bookDisplay.value = '';
+    if (window.trackLead) window.trackLead('book-request');
+
+    setTimeout(() => {
+      bookSubmitting = false;
+      bookSubmitBtn.disabled = false;
+      bookSubmitBtn.textContent = BOOK_TEXT.send;
+    }, 900);
+  });
+}
+
 if (form) {
   form.addEventListener('submit', async e => {
     e.preventDefault();
