@@ -43,9 +43,10 @@
   --shadow-3: 0 18px 40px rgba(20, 24, 31, 0.10), 0 4px 12px rgba(20, 24, 31, 0.05);
 
   /* fonts */
-  --font-ar:   'Cairo', 'Tajawal', system-ui, sans-serif;
-  --font-en:   'Inter', system-ui, sans-serif;
-  --font-num:  'Space Grotesk', 'Inter', monospace;
+  --font-ar:      'Readex Pro', 'Cairo', 'Tajawal', system-ui, sans-serif;
+  --font-en:      'Inter', system-ui, sans-serif;
+  --font-display: 'Fraunces', 'Instrument Serif', Georgia, serif;
+  --font-num:     'Space Grotesk', 'Inter', monospace;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -61,6 +62,22 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 body.en { font-family: var(--font-en); }
+
+/* Display serif for English headlines only — adds warm editorial personality */
+body.en h1, body.en h2, body.en .grad-text {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -1.5px;
+}
+body.en h1 { font-weight: 500; }
+body.en .grad-text { font-style: italic; }
+
+/* Arabic gets tighter letter-spacing and heavier display weight for punch */
+body:not(.en) h1, body:not(.en) h2 {
+  letter-spacing: -.2px;
+  font-weight: 800;
+}
+body:not(.en) h1 { font-weight: 700; }
 
 ::selection { background: var(--emerald-soft); color: var(--emerald-2); }
 
@@ -218,8 +235,9 @@ button { font-family: inherit; }
 }
 .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); }
 .stat-num {
-  font-family: var(--font-num); font-size: 1.7rem; font-weight: 700;
-  color: var(--ink); display: block; letter-spacing: -1px;
+  font-family: var(--font-num); font-size: 1.55rem; font-weight: 700;
+  color: var(--ink); display: block; letter-spacing: -1px; line-height: 1.1;
+  margin-bottom: 6px;
 }
 .stat-num.emerald { color: var(--emerald); }
 .stat-num.coral   { color: var(--coral); }
@@ -408,10 +426,55 @@ section { padding: 90px 0; }
 .testimonial .who .name { font-weight: 800; font-size: .9rem; color: var(--ink); }
 .testimonial .who .role { font-size: .78rem; color: var(--ink-3); }
 
+.testimonials-source {
+  text-align: center; margin-top: 26px; color: var(--ink-3); font-size: .88rem;
+}
+.testimonials-source a { color: var(--emerald-2); font-weight: 700; border-bottom: 1px dashed var(--emerald); }
+
 /* ---------- Results page ---------- */
 .page-hero { padding: 140px 0 40px; text-align: center; }
 .page-hero h1 { font-size: clamp(2rem, 4.6vw, 3.1rem); font-weight: 900; margin-bottom: 14px; color: var(--ink); letter-spacing: -.5px; }
 .page-hero p { color: var(--ink-3); font-size: 1.06rem; max-width: 640px; margin: 0 auto; }
+
+/* Lifetime aggregate strip — bigger and more prominent than case cards */
+.lifetime-strip {
+  max-width: 960px; margin: 34px auto 0;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius-lg); padding: 26px 22px; box-shadow: var(--shadow-2);
+}
+.lifetime-strip .ls-item {
+  text-align: center; padding: 4px 6px;
+  border-inline-end: 1px solid var(--line);
+}
+.lifetime-strip .ls-item:last-child { border-inline-end: none; }
+.lifetime-strip .ls-num {
+  display: block; font-family: var(--font-num);
+  font-size: clamp(1.35rem, 3vw, 1.85rem); font-weight: 700;
+  color: var(--ink); letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 6px;
+}
+.lifetime-strip .ls-num.emerald { color: var(--emerald); }
+.lifetime-strip .ls-label { font-size: .8rem; color: var(--ink-3); font-weight: 600; }
+
+@media (max-width: 760px) {
+  .lifetime-strip { grid-template-columns: repeat(2, 1fr); }
+  .lifetime-strip .ls-item:nth-child(2) { border-inline-end: none; }
+}
+
+/* Proof screenshot figure */
+.proof-figure {
+  max-width: 960px; margin: 30px auto 0;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius-lg); padding: 16px; box-shadow: var(--shadow-2);
+  text-align: center;
+}
+.proof-figure img {
+  border-radius: 12px; width: 100%; border: 1px solid var(--line);
+  display: block; margin: 0 auto;
+}
+.proof-figure figcaption {
+  margin-top: 12px; font-size: .82rem; color: var(--ink-3);
+}
 
 .roas-banner {
   margin: 40px auto 0; max-width: 820px;

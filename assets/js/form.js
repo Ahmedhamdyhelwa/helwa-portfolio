@@ -99,6 +99,7 @@ if (form) {
 
     showMsg('ok', TEXT.ok);
     form.reset();
+    if (window.trackLead) window.trackLead('form');
 
     // Open WhatsApp with pre-filled message so the user reaches me even if the sheet fails.
     const waText = buildWhatsAppText(data, services);
